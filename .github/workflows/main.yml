@@ -45,7 +45,6 @@ on:
   push:
     branches:
       - main
-      - pipeline
 
 permissions:
   id-token: write
@@ -80,8 +79,9 @@ jobs:
 
       - name: Terraform init
         run: |
+            cd terraform
             terraform init 
       - name: Terraform plan
         run: |
             terraform plan
-      
+      ]]]
