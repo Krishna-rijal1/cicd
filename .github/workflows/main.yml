@@ -86,7 +86,11 @@ jobs:
         run: |
             cd terraform
             terraform plan
-            
+      - name: Terraform plan
+        run: |
+            cd terraform
+            erraform plan  
+               
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
         env:
