@@ -2,6 +2,7 @@ name: Push-to-EC2
 
 # Trigger deployment only on push to main branch
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -36,5 +37,8 @@ jobs:
             sudo systemctl enable apache2
             cd home
             sudo mv * /var/www/html
+            
+      - name: Print Name
+        run: echo "Hello World"
 
             
