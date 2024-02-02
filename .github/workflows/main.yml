@@ -89,8 +89,7 @@ jobs:
       - name: Terraform apply
         run: |
             cd terraform
-            terraform apply 
-            auto_approve: true
+            terraform apply --auto-approve
 
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
