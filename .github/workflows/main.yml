@@ -89,7 +89,7 @@ jobs:
       - name: Terraform apply
         run: |
             cd terraform
-            erraform apply 
+            Terraform apply 
 
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
