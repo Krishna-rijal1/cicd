@@ -1,44 +1,97 @@
-name: Push-to-EC2
+name: infra Provision 
 
-# Trigger deployment only on push to main branch
+# # Trigger deployment only on push to main branch
+# on:
+#   workflow_dispatch:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     name: Deploy to EC2 on master branch push
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout the files
+#         uses: actions/checkout@v2
+
+#       - name: Deploy to Server 1
+#         uses: easingthemes/ssh-deploy@main
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+#           REMOTE_HOST: ${{ secrets.HOST_DNS }}
+#           REMOTE_USER: ${{ secrets.USERNAME }}
+#           TARGET: ${{ secrets.TARGET_DIR }}
+
+#       - name: Executing remote ssh commands using ssh key
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: ${{ secrets.HOST_DNS }}
+#           username: ${{ secrets.USERNAME }}
+#           key: ${{ secrets.EC2_SSH_KEY }}
+#           script: |
+#             sudo apt-get -y update
+#             sudo apt-get install -y apache2
+#             sudo systemctl start apache2
+#             sudo systemctl enable apache2
+#             cd home
+#             sudo mv /index.html /var/www/html/
+
+#       - name: Print Name
+#         run: echo "Hello World"
 on:
   workflow_dispatch:
   push:
     branches:
       - main
+      - pipeline
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+env:
+  awsRegion: "us-east-1"
 
 jobs:
-  deploy:
-    name: Deploy to EC2 on master branch push
+  infra-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout the files
-        uses: actions/checkout@v2
+      - name: Check terraform code
+        uses: actions/checkout@v3
 
-      - name: Deploy to Server 1
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
-
-      - name: Executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
         with:
-          host: ${{ secrets.HOST_DNS }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            sudo apt-get -y update
-            sudo apt-get install -y apache2
-            sudo systemctl start apache2
-            sudo systemctl enable apache2
-            cd home
-            sudo mv /index.html /var/www/html/
+          role-to-assume: arn:aws:iam::${{ secrets.ADEX_POC}}:role/Github-OIDC-role
+          role-session-name: OIDCSession
+          aws-region: ${{ env.awsRegion }}
 
-      - name: Print Name
-        run: echo "Hello World"
+      - name: Set up terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Verify Terraform version
+        run: terraform --version
+
+      - name: Terraform init
+        run: |
+            terraform init 
+      - name: Terraform plan
+        run: |
+            terraform plan
+      - name: Terraform Apply
+        run: |
+            terraform apply
+      
+
+      
+  
+
+
+
+
+
 
             
