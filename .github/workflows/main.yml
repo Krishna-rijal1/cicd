@@ -72,7 +72,7 @@ jobs:
           # role-session-name: MySessionName
 
       - name: Set up terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
 
       - name: Verify Terraform version
         run: terraform --version
