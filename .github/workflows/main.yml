@@ -110,5 +110,4 @@ jobs:
             sudo apt-get install -y apache2
             sudo systemctl start apache2
             sudo systemctl enable apache2  
-            cd home
-            sudo mv /index.html /var/www/html/  
+            sudo mv home/index.html /var/www/html/  
