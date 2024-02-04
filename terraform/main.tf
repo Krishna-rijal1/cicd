@@ -128,6 +128,7 @@ resource "aws_instance" "ansible_conf" {
   subnet_id       = aws_subnet.public_subnet.id
   key_name        = "krishna"
   security_groups = [aws_security_group.my_security_group.id]
+  volume_tags = local.tags
   tags = {
     Name = "ansible_server"
   }
