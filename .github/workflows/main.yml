@@ -78,27 +78,35 @@ jobs:
         run: terraform --version
 
       - name: Terraform init
-        run: |
-            cd terraform
-            terraform init 
-      
-      - name: Terraform plan
-        run: |
-            cd terraform
-            terraform plan
-      # - name: Terraform apply
+        working-directory: terraform
+        run:  terraform init 
+              terraform plan
+          
+
+      - name: Terraform apply
+        working-directory: terraform
+        run: cd terraform
+             terraform apply --auto-approve
+      - name: get dynamic ip
+        id: get_ip
+        run: echo "::set-output name=instance_ip::$(cd terraform && terraform output -raw instance_ip)"
+        working-directory: terraform
+
+      # - name: check ansible version
       #   run: |
-      #       cd terraform
-      #       terraform apply --auto-approve
+      #       ansible --version
 
-      - name: check ansible version
-        run: |
-            ansible --version
+      # - name: check ansible 
+      #   run: |
+      #      ansible-inventory -i ansible/inventory.ini --graph
+      - name: Ansible setup
+        uses: appleboy/ansible-action@v2
+        with:
+          playbook: ansible/main.yml
+          inventory: "ansible/inventory.ini"
+        env:
+           EC2_IP: ${{ steps.get_ip.outputs.instance_ip }}   
 
-      - name: check ansible 
-        run: |
-           ansible-inventory -i inventory.ini --graph
-           
 
       
 
