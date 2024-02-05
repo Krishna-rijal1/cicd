@@ -1,0 +1,6 @@
+---
+  - name: Ensure php is Started
+    systemd:
+      name: php
+      state: started
+      enabled: yes

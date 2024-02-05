@@ -121,6 +121,8 @@ resource "aws_security_group" "my_security_group" {
 # }
 
 //ec2 instance for public
+
+
 resource "aws_instance" "ansible_conf" {
   ami             = "ami-0c7217cdde317cfec"
   instance_type   = "t2.micro"
@@ -136,12 +138,6 @@ resource "aws_instance" "ansible_conf" {
     volume_size = 8
     volume_type = "gp3"
   }
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo apt-get update
-              sudo apt-get install -y apache2
-              sudo systemctl start apache2
-              sudo systemctl enable apache2
-              EOF
+
 }
   
