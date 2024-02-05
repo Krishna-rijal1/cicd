@@ -122,6 +122,10 @@ resource "aws_security_group" "my_security_group" {
 
 //ec2 instance for public
 
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.ansible_conf
+  
+}
 
 resource "aws_instance" "ansible_conf" {
   ami             = "ami-0c7217cdde317cfec"
