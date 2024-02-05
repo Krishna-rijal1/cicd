@@ -86,12 +86,12 @@ jobs:
         run: |
             cd terraform
             terraform plan
-      - name: Terraform apply
-        run: |
-            cd terraform
-            terraform apply --auto-approve
+      # - name: Terraform apply
+      #   run: |
+      #       cd terraform
+      #       terraform apply --auto-approve
 
       - name: check ansible version
         run: |
             ansible --version
-            
+
