@@ -95,3 +95,15 @@ jobs:
         run: |
             ansible --version
 
+      - name: check ansible 
+        run: |
+           ansible-inventory -i inventory.ini --graph
+           
+
+      
+
+
+                
+                      
+
+
