@@ -94,14 +94,14 @@ jobs:
         working-directory: terraform
 
       - name: Ansible setup
-        uses: appleboy/ansible-action@v2
+        uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: ansible/configure.yml
           inventory: ansible/inventory.ini
       
 
       - name: Configure Todo Application with Ansible
-        uses: appleboy/ansible-action@v2
+        uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: ansible/configure.yml
           inventory: "${{ steps.get_ip.outputs.instance_ip }},"  # Add a comma to treat it as a list
