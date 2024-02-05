@@ -94,7 +94,7 @@ jobs:
         working-directory: terraform
 
       - name: Configure Todo Application with Ansible
-        uses: appleboy/ansible-action@v2
+        uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: configure.yml
           inventory: "${{ steps.get_ip.outputs.instance_ip }}," 
