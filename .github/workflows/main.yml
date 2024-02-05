@@ -100,7 +100,7 @@ jobs:
       #   run: |
       #      ansible-inventory -i ansible/inventory.ini --graph
       - name: Ansible setup
-        uses: appleboy/ansible-action@v2
+        uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: ansible/main.yml
           inventory: "ansible/inventory.ini"
