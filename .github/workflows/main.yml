@@ -96,9 +96,9 @@ jobs:
       - name: Configure Todo Application with Ansible
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: configure.yml
+          playbook: ansible/configure.yml
           inventory: "${{ steps.get_ip.outputs.instance_ip }}," 
-          working-directory: ansible
+          
         
 
       # - name: check ansible version
