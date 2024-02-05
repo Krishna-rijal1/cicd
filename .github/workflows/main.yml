@@ -79,14 +79,15 @@ jobs:
 
       - name: Terraform init
         working-directory: terraform
-        run:  terraform init 
+        run: |
+              terraform init 
               terraform plan
           
 
       - name: Terraform apply
         working-directory: terraform
-        run: cd terraform
-             terraform apply --auto-approve
+        run: terraform apply --auto-approve
+        
       - name: get dynamic ip
         id: get_ip
         run: echo "::set-output name=instance_ip::$(cd terraform && terraform output -raw instance_ip)"
