@@ -132,4 +132,16 @@ resource "aws_instance" "ansible_conf" {
   tags = {
     Name = "ansible_server"
   }
+  root_block_device {
+    volume_size = 8
+    volume_type = "gp3"
+  }
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo apt-get update
+              sudo apt-get install -y apache2
+              sudo systemctl start apache2
+              sudo systemctl enable apache2
+              EOF
 }
+  
