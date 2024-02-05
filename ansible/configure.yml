@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: true
+  gather_facts : false
+  roles:
+    - apache
+    - php
+    - mysql
+    
+   
+
+  # - name: install nginx
+  #   apt:    
+  #     name: nginx
+  #     state: latest 
+  #     update_cache: yes
+
+  # - name: Ensure nginx is Started
+  #   systemd:
+  #     name: nginx   
+  #     state: started
+  #     enabled: yes
+
+  # `vars:
+  #   ansible_user: ubuntu
+  #   ansible_ssh_private_key_file: /users/manish/downloads/krishna.pem
+
