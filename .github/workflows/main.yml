@@ -116,6 +116,19 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY }}" > ansible/krishna.pem
           chmod 600 ansible/krishna.pem
 
+      - name: Install Ansible
+        run: |
+            sudo apt update
+            sudo apt install -y ansible
+  
+      - name: Display Current Working Directory
+        run: |
+          pwd
+
+      - name: List Contents of the Current Directory
+        run: |
+          ls
+
       - name: Ansible Inventory
         run: |
           ansible-inventory -i ansible/aws_ec2.yml --graph
