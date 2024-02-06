@@ -85,7 +85,7 @@ jobs:
           terraform -chdir=terraform/ validate
       - name: Terraform Plan
         run: |
-          terraform -chdir=terraform/ Plan
+          terraform -chdir=terraform/ plan
       - name: Terraform apply
         run: |
           terraform -chdir=terraform/ apply --auto-approve
