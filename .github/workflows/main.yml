@@ -92,47 +92,13 @@ jobs:
         run: |
             sleep 2
 
-      - name: Ansible Inventory
-        run: |
-             ansible-inventory -i ansible/inventory.ini --graph
-
       - name: Ansible Playbook
         run: |
-            ansible-playbook ansible/configure.yml -i ansible/inventory.ini
+            ansible-playbook -i ansible/aws_ec2.yml ansible/configure.yml
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
 
-      # - name: get dynamic ip
-      #   id: get_ip
-      #   run: echo "::set-output name=instance_ip::$(cd terraform && terraform output -raw instance_ip)"
-      #   working-directory: terraform
-
-      # - name: Ansible setup
-      #   uses: dawidd6/action-ansible-playbook@v2
-      #   with:
-      #     playbook: ansible/configure.yml
-      #     inventory: ansible/inventory.ini
-      #     working-directory: ansible  
       
-
-      # - name: Configure Todo Application with Ansible
-      #   uses: dawidd6/action-ansible-playbook@v2
-      #   with:
-      #     playbook: ansible/configure.yml
-      #     inventory: "${{ steps.get_ip.outputs.instance_ip }},"  # Add a comma to treat it as a list
-        
-  
-        
-
-      # - name: check ansible version
-      #   run: |
-      #       ansible --version
-
-      # - name: check ansible 
-      #   run: |
-      #      ansible-inventory -i ansible/inventory.ini --graph
-      
-        # uses: dawidd6/action-ansible-playbook@v2
-        
-
       
 
 
