@@ -137,7 +137,7 @@ jobs:
       - name: Ansible Playbook
         run: |
           yes yes | ansible-playbook -v \
-          --private-key=ansible/krishna.pem \
+          --private-key= /home/runner/work/cicd/cicd/ansible/krishna.pem \
           -u ubuntu \
           -i ansible/aws_ec2.yml \
           ansible/configure.yml \
