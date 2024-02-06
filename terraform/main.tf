@@ -122,11 +122,16 @@ resource "aws_security_group" "my_security_group" {
 
 //ec2 instance for public
 
+# resource "aws_eip_association" "eip_assoc" {
+#   instance_id   = aws_instance.ansible_conf
+#   allocation_id = aws_eip.example.id
+  
+# }
 
 resource "aws_instance" "ansible_conf" {
   ami             = "ami-0c7217cdde317cfec"
   instance_type   = "t2.micro"
-  associate_public_ip_address = true
+
   subnet_id       = aws_subnet.public_subnet.id
   key_name        = "krishna"
   security_groups = [aws_security_group.my_security_group.id]
@@ -140,4 +145,11 @@ resource "aws_instance" "ansible_conf" {
   }
 
 }
-  
+ resource "aws_eip" "example" {
+  vpc = true
+  instance = aws_instance.ansible_conf.id
+  tags = {
+    Name = "Krishna-EIP"
+  }
+}
+
