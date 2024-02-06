@@ -136,13 +136,4 @@ jobs:
 
       - name: Ansible Playbook
         run: |
-          ansible-playbook -v --private-key=ansible/krishna.pem -u ubuntu -i ansible/aws_ec2.yml ansible/configure.yml
-
-      
-      
-
-
-                
-                      
-
-
+          yes yes | ansible-playbook -v --private-key=ansible/krishna.pem -u ubuntu -i ansible/aws_ec2.yml ansible/configure.yml --ssh-extra-args='-o StrictHostKeyChecking=no'        
