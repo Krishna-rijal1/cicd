@@ -134,12 +134,9 @@ jobs:
         run: |
           ansible-inventory -i ansible/aws_ec2.yml --graph
 
-      - name: Ansible Playbook
+      - name: Run Ansible Playbook
         run: |
-              yes yes | ansible-playbook -v \
-              --private-key=${{ github.workspace }}/ansible/krishna.pem \
-              -u ubuntu \
-              -i ansible/aws_ec2.yml \
-              ansible/configure.yml \
-              --ssh-extra-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
-        
+             ansible-playbook -i ansible/aws_ec2.yml ansible/configure.yml --private-key=ansible/krishna.pem -u ubuntu -v --ssh-extra-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+  
+
+      
