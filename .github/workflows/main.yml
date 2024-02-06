@@ -78,25 +78,32 @@ jobs:
         run: terraform --version
 
       - name: Terraform init
-        working-directory: terraform
         run: |
-              terraform init 
-              terraform plan
-          
-
+          terraform -chdir=terraform/ init
+      - name: Terraform validate
+        run: |
+          terraform -chdir=terraform/ validate
+      - name: Terraform Plan
+        run: |
+          terraform -chdir=terraform/ Plan
       - name: Terraform apply
-        working-directory: terraform
-        run: terraform apply --auto-approve
-
+        run: |
+          terraform -chdir=terraform/ apply --auto-approve
       - name: Wait
         run: |
-            sleep 2
+          sleep 2
+      - name: Copy Secrets Content to krishna.pem file
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > ansible/krishna.pem
+          chmod 600 ansible/krishna.pem
+
+      - name: Ansible Inventory
+        run: |
+          ansible-inventory -i ansible/your_inventoy_name.yml --graph
 
       - name: Ansible Playbook
         run: |
-            ansible-playbook -i ansible/aws_ec2.yml ansible/configure.yml
-        env:
-          PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          ansible-playbook -v --private-key=ansible/krishna.pem -u ubuntu -i ansible/aws_ec2.yml ansible/configure.yml
 
       
       
