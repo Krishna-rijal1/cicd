@@ -109,49 +109,34 @@ jobs:
       - name: Terraform apply
         run: |
           terraform -chdir=terraform/ apply --auto-approve
-      # - name: Wait
-      #   run: |
-      #     sleep 2
-      # - name: Copy Secrets Content to krishna.pem file
-      #   run: |
-      #     echo "${{ secrets.EC2_SSH_KEY }}" > ansible/krishna.pem
-      #     sudo chmod 400 ansible/krishna.pem
-
-      # - name: Install Ansible
-      #   run: |
-      #       sudo apt update
-      #       sudo apt install -y ansible
-  
-      # - name: Display Current Working Directory
-      #   run: |
-      #     pwd
-
-      # - name: List Contents of the Current Directory
-      #   run: |
-      #     ls ansible/
-
-      # - name: Ansible Inventory
-      #   run: |
-      #     ansible-inventory -i ansible/aws_ec2.yml --graph
-
-      # - name: Run Ansible Playbook
-      #   run: |
-      #       export ANSIBLE_HOST_KEY_CHECKING=False  # Temporarily disable host key checking for dynamic IP
-      #       ansible-playbook -i ansible/aws_ec2.yml -e "ansible_host=$(cat instance_ip.txt)" ansible/configure.yml
-      #   env:
-      #       ANSIBLE_PRIVATE_KEY_FILE: ansible/krishna.pem
-
-      - name: Wait for EC2 instance to become available
+      - name: Wait
         run: |
-          sleep 30  # Adjust wait time as needed
-          terraform -chdir=terraform/ output -raw ec2_instance_public_ip > instance_ip.txt
+          sleep 2
+      - name: Copy Secrets Content to krishna.pem file
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > ansible/krishna.pem
+          sudo chmod 400 ansible/krishna.pem
 
       - name: Install Ansible
-        run: sudo apt update && sudo apt install -y ansible
+        run: |
+            sudo apt update
+            sudo apt install -y ansible
+  
+      - name: Display Current Working Directory
+        run: |
+          pwd
+
+      - name: List Contents of the Current Directory
+        run: |
+          ls ansible/
+
+      - name: Ansible Inventory
+        run: |
+          ansible-inventory -i ansible/aws_ec2.yml --graph
 
       - name: Run Ansible Playbook
         run: |
-              export ANSIBLE_HOST_KEY_CHECKING=False  # Temporarily disable host key checking for dynamic IP
-              ansible-playbook -i ansible/aws_ec2.yml -e "ansible_host=$(cat instance_ip.txt)" /path/to/your/playbook.yml
-        env:
-          ANSIBLE_PRIVATE_KEY_FILE: ansible/krishna.pem   
+             ansible-playbook -i ansible/aws_ec2.yml ansible/configure.yml --private-key=ansible/krishna.pem -u ubuntu -v --ssh-extra-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+  
+
+      
