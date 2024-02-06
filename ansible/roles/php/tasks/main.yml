@@ -1,9 +1,11 @@
 ---
-  - name: install php
-    apt:    
+  - name: Install PHP and common modules
+    apt:
       name:
-       - php
-       - php-mysql
-      state: latest 
-      update_cache: yes
-    notify: Ensure php is Started 
+        - php
+        - php-cli
+        - php-fpm
+        - php-mbstring
+        - php-mysql
+        - php-xml
+      state: present

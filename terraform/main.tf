@@ -13,14 +13,6 @@ resource "aws_subnet" "public_subnet" {
 }
 
 
-# //creating private subnet
-# resource "aws_subnet" "private_subnet" {
-#     vpc_id = aws_vpc.my_vpc.id
-#     cidr_block = "10.10.2.0/24"
-#     availability_zone = "us-east-1a"
-# }
-
-
 //creating internet gateway
 resource "aws_internet_gateway" "my_internet_gwy" {
   vpc_id = aws_vpc.my_vpc.id
@@ -43,22 +35,6 @@ resource "aws_route_table_association" "public_subnet_association" {
 
 }
 
-//creating route table for private
-# resource "aws_route_table" "private_route_table" {
-#   vpc_id = aws_vpc.my_vpc.id
-
-#   route {
-#     cidr_block = "0.0.0.0/0"
-#     gateway_id = aws_internet_gateway.my_internet_gwy.id
-#   }
-#   tags = local.tags
-# }
-
-# resource "aws_route_table_association" "private_subnet_association" {
-#   subnet_id = aws_subnet.private_subnet.id
-#   route_table_id = aws_route_table.private_route_table.id
-
-# }
 
 //creating security groups
 resource "aws_security_group" "my_security_group" {
@@ -92,64 +68,22 @@ resource "aws_security_group" "my_security_group" {
   }
 }
 
-//creating nat gateway
-# resource "aws_nat_gateway" "my_nat_gateway" {
-#   allocation_id = aws_eip.my_elasticip.id
-#   subnet_id     = aws_subnet.public_subnet.id
-
-#   tags = local.tags
-
-# }
-
-# //allocate elastic ip for nat gateway
-# resource "aws_eip" "my_elasticip" {
-#   tags = local.tags
-# }
-
-
-# //creating ec2 instance
-# resource "aws_instance" "krishna_private" {
-
-#   ami = "ami-0c7217cdde317cfec"
-#   instance_type = "t2.micro"
-#   subnet_id = aws_subnet.private_subnet.id
-#   key_name = "krishna"
-#   security_groups = [aws_security_group.my_security_group.id]
-#   tags = local.tags
-#   volume_tags = local.tags
-
-# }
-
-//ec2 instance for public
-
-# resource "aws_eip_association" "eip_assoc" {
-#   instance_id   = aws_instance.ansible_conf
-#   allocation_id = aws_eip.example.id
-  
-# }
 
 resource "aws_instance" "ansible_conf" {
   ami             = "ami-0c7217cdde317cfec"
   instance_type   = "t2.micro"
-
+  associate_public_ip_address = true
   subnet_id       = aws_subnet.public_subnet.id
   key_name        = "krishna"
   security_groups = [aws_security_group.my_security_group.id]
   volume_tags = local.tags
   tags = {
-    Name = "ansible_server"
+    Name = "115_ansible_server"
   }
   root_block_device {
     volume_size = 8
     volume_type = "gp3"
   }
 
-}
- resource "aws_eip" "example" {
-  vpc = true
-  instance = aws_instance.ansible_conf.id
-  tags = {
-    Name = "Krishna-EIP"
-  }
 }
 

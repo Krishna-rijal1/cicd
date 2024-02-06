@@ -1,3 +1,3 @@
-output "elastic_ip" {
-  value = aws_eip.example.public_ip
- }
+output "instance_ip" {
+  value = aws_instance.ansible_conf.public_ip
+}
