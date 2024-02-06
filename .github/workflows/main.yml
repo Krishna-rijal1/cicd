@@ -128,7 +128,7 @@ jobs:
 
       - name: List Contents of the Current Directory
         run: |
-          ls
+          ls ansible/
 
       - name: Ansible Inventory
         run: |
