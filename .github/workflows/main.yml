@@ -99,7 +99,7 @@ jobs:
 
       - name: Ansible Inventory
         run: |
-          ansible-inventory -i ansible/your_inventoy_name.yml --graph
+          ansible-inventory -i ansible/aws_ec2.yml --graph
 
       - name: Ansible Playbook
         run: |
