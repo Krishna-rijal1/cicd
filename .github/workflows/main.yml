@@ -136,10 +136,10 @@ jobs:
 
       - name: Ansible Playbook
         run: |
-          yes yes | ansible-playbook -v \
-          --private-key= /home/runner/work/cicd/cicd/ansible/krishna.pem \
-          -u ubuntu \
-          -i ansible/aws_ec2.yml \
-          ansible/configure.yml \
-          --ssh-extra-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
-      
+              yes yes | ansible-playbook -v \
+              --private-key=${{ github.workspace }}/ansible/krishna.pem \
+              -u ubuntu \
+              -i ansible/aws_ec2.yml \
+              ansible/configure.yml \
+              --ssh-extra-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+        
