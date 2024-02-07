@@ -2,7 +2,7 @@
 - name: Ansible Playbook
   hosts: Development
   become: true
-  gather_facts : false
+  gather_facts : true
   roles:
     - apache
     - php
