@@ -114,9 +114,8 @@ jobs:
           sleep 2
       - name: Copy Secrets Content to krishna.pem file
         run: |
-          cd ansible
-          echo "${{secrets.EC2_SSH_KEY}}" > krishna.pem
-          sudo chmod 600 krishna.pem
+          echo "${{secrets.EC2_SSH_KEY}}" > ansible/krishna.pem
+          sudo chmod 400 ansible/krishna.pem
 
       - name: Install Ansible
         run: |
@@ -142,4 +141,5 @@ jobs:
       - name: Run Ansible Playbook
         run: |
             ansible-playbook -vvvv -i ansible/aws_ec2.yml ansible/configure.yml --ssh-extra-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
         

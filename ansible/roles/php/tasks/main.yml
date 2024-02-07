@@ -9,3 +9,4 @@
         - php-mysql
         - php-xml
       state: present
+      notify: Ensure php is Started 
