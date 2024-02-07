@@ -114,8 +114,9 @@ jobs:
           sleep 2
       - name: Copy Secrets Content to krishna.pem file
         run: |
-          echo "${{ secrets.EC2_SSH_KEY }}" > ansible/krishna.pem
-          sudo chmod 400 ansible/krishna.pem
+          cd ansible
+          echo "${{secrets.EC2_SSH_KEY}}" > krishna.pem
+          sudo chmod 600 krishna.pem
 
       - name: Install Ansible
         run: |
@@ -128,14 +129,17 @@ jobs:
 
       - name: List Contents of the Current Directory
         run: |
-          ls ansible/
-
+          ls -lah ansible/
+          cat ansible/krishna.pem
+      - name: skip host key verification
+        run: |
+            ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+          
       - name: Ansible Inventory
         run: |
           ansible-inventory -i ansible/aws_ec2.yml --graph
 
       - name: Run Ansible Playbook
         run: |
-            ansible-playbook -i ansible/aws_ec2.yml ansible/configure.yml
-
-      
+            ansible-playbook -vvvv -i ansible/aws_ec2.yml ansible/configure.yml --ssh-extra-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+        
