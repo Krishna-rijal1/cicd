@@ -129,6 +129,10 @@ jobs:
       - name: List Contents of the Current Directory
         run: |
           ls ansible/
+      - name: skip host key verification
+        run: |
+            ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+          
 
       - name: Ansible Inventory
         run: |
@@ -137,6 +141,6 @@ jobs:
       - name: Run Ansible Playbook
         run: |
             ansible-playbook -i ansible/aws_ec2.yml ansible/configure.yml
-            
+
 
       
